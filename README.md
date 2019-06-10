@@ -1,3 +1,17 @@
+# Live test Gevis - Server
+
+Live test server (remote server: 137.204.59.224:8000)
+
+```
+cd cpp
+mkdir build
+cd build
+cmake ..
+make
+client_gevis_example.exe 137.204.59.224 8000 <Path-to-folder-with-images>
+```
+
+
 # Postcard simple protocol
 
 
