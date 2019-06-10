@@ -7,3 +7,6 @@ find_package( OpenCV REQUIRED )
 
 add_executable( client_example client_example.cpp )
 target_link_libraries( client_example ${OpenCV_LIBS} )
+
+add_executable( client_gevis_example client_gevis_example.cpp )
+target_link_libraries( client_gevis_example ${OpenCV_LIBS} )

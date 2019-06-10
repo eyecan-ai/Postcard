@@ -41,9 +41,25 @@ int main(int argc, char *argv[])
   cv::namedWindow("image", cv::WINDOW_NORMAL);
   cv::namedWindow("response", cv::WINDOW_NORMAL);
 
-  /* Sample image loading */
-  std::cout << "Loading Image..." << std::endl;
-  cv::Mat img = cv::imread(std::string(argv[3]));
+  /* loading images and merge channels */
+  std::cout << "Loading Images:" << std::endl;
+  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgFrontale.bmp" << std::endl;
+  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgRadente1.bmp" << std::endl;
+  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgRadente2.bmp" << std::endl;
+
+  cv::Mat img0 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgFrontale.bmp", cv::IMREAD_GRAYSCALE);
+  cv::Mat img1 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgRadente1.bmp", cv::IMREAD_GRAYSCALE);
+  cv::Mat img2 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgRadente2.bmp", cv::IMREAD_GRAYSCALE);
+
+  cv::Mat img;
+  std::vector<cv::Mat> channels;
+  channels.push_back(img0);
+  channels.push_back(img1);
+  channels.push_back(img2);
+  cv::merge(channels, img);
+
+  /* resize to match CNN input */
+  cv::resize(img, img, cv::Size(512, 1315));
 
   cv::imshow("image", img);
   cv::waitKey(0);
