@@ -43,13 +43,10 @@ int main(int argc, char *argv[])
 
   /* loading images and merge channels */
   std::cout << "Loading Images:" << std::endl;
-  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgFrontale.bmp" << std::endl;
-  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgRadente1.bmp" << std::endl;
-  std::cout << "  " << std::string(argv[3]) + "/acqLato1Orizz_imgRadente2.bmp" << std::endl;
 
-  cv::Mat img0 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgFrontale.bmp", cv::IMREAD_GRAYSCALE);
-  cv::Mat img1 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgRadente1.bmp", cv::IMREAD_GRAYSCALE);
-  cv::Mat img2 = cv::imread(std::string(argv[3]) + "/acqLato1Orizz_imgRadente2.bmp", cv::IMREAD_GRAYSCALE);
+  cv::Mat img0 = cv::imread(std::string(argv[3]) + "/" + argv[4] + "_imgFrontale.bmp", cv::IMREAD_GRAYSCALE);
+  cv::Mat img1 = cv::imread(std::string(argv[3]) + "/" + argv[4] + "_imgRadente1.bmp", cv::IMREAD_GRAYSCALE);
+  cv::Mat img2 = cv::imread(std::string(argv[3]) + "/" + argv[4] + "_imgRadente2.bmp", cv::IMREAD_GRAYSCALE);
 
   cv::Mat img;
   std::vector<cv::Mat> channels;
@@ -83,8 +80,14 @@ int main(int argc, char *argv[])
               << " bytes..." << std::endl;
     cv::Mat response_image = client.receiveImage(responseHeader);
 
+    float alpha = 0.5;
+    float beta = 1.0 - alpha;
+    cv::Mat blend;
+    cv::addWeighted(img, alpha, response_image, beta, 0.0, blend);
+
     std::cout << response_image.rows << "X" << response_image.cols << "\n";
     cv::imshow("response", response_image);
+    cv::imshow("blend", blend);
     cv::waitKey(0);
     img = response_image;
 
