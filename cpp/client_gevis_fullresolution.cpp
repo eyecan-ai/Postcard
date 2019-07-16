@@ -55,9 +55,6 @@ int main(int argc, char *argv[])
   channels.push_back(img2);
   cv::merge(channels, img);
 
-  /* resize to match CNN input */
-  cv::resize(img, img, cv::Size(512, 1315));
-
   cv::imshow("image", img);
   cv::waitKey(0);
 
@@ -79,18 +76,27 @@ int main(int argc, char *argv[])
     std::cout << "Waiting for " << responseHeader.getPayloadSize()
               << " bytes..." << std::endl;
     cv::Mat response_image = client.receiveImage(responseHeader);
-
+    cv::cvtColor(response_image, response_image, cv::COLOR_RGB2BGR);
     float alpha = 0.5;
     float beta = 1.0 - alpha;
     cv::Mat blend;
     cv::addWeighted(img, alpha, response_image, beta, 0.0, blend);
 
     std::cout << response_image.rows << "X" << response_image.cols << "\n";
-    cv::imshow("response", response_image);
-    cv::imshow("blend", blend);
-    cv::imwrite("/tmp/out.png", blend);
+
+    cv::Mat output, gray_input;
+    cv::cvtColor(img0, gray_input, cv::COLOR_GRAY2BGR);
+    cv::hconcat(gray_input, img, output);
+    cv::hconcat(output, blend, output);
+    cv::hconcat(output, response_image, output);
+
+    cv::imshow("output", output);
+    std::string tmp_file = std::tmpnam(nullptr);
+    cv::imwrite(tmp_file + std::string(".png"), response_image);
+    cv::imwrite(tmp_file + std::string("_combo.png"), output);
     cv::waitKey(0);
-    img = response_image;
+
+    std::cout << "Output written in: " << tmp_file << std::endl;
 
     close(sock);
     exit(0);
