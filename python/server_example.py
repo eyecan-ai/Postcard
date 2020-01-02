@@ -10,8 +10,9 @@ def imageCallback(header, input_image):
     print(input_image.shape)
 
     #Draw random circles
-    center = np.random.randint(0,min(input_image.shape[0], input_image.shape[1]),(2,))
-    cv2.circle(input_image, tuple(center), 15, (255,0,255),-1)
+    for i in range(32):
+        center = np.random.randint(0,min(input_image.shape[0], input_image.shape[1]),(2,))
+        cv2.circle(input_image, tuple(center), 15, (255,0,255),-1)
     
     return "ok", input_image
 

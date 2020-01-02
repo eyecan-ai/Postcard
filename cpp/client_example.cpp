@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
 
   postcard::PostcardClient client(argv[1], atoi(argv[2]));
 
-  /* Display window */
-  cv::namedWindow("image", cv::WINDOW_NORMAL);
+  /* Display windows */
+  cv::namedWindow("source_image", cv::WINDOW_NORMAL);
   cv::namedWindow("response", cv::WINDOW_NORMAL);
 
   /* Sample image loading */
@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
   cv::Mat img = cv::imread(std::string(argv[3]));
 
   cv::imshow("image", img);
-  cv::waitKey(0);
 
   /* Sends the image to the server  */
   std::cout << "Sending data..." << std::endl;
@@ -69,6 +68,9 @@ int main(int argc, char *argv[])
 
     std::cout << response_image.rows << "X" << response_image.cols << "\n";
     cv::imshow("response", response_image);
+
+    cv::moveWindow("source_image", 10,10);
+    cv::moveWindow("response", 600,10);
     cv::waitKey(0);
     img = response_image;
 

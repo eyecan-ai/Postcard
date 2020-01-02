@@ -1,17 +1,3 @@
-# Live test Gevis - Server
-
-Live test server (remote server: 137.204.59.224:8000)
-
-```
-cd cpp
-mkdir build
-cd build
-cmake ..
-make
-client_gevis_example.exe 137.204.59.224 8000 <Path-to-folder-with-images>
-```
-
-
 # Postcard simple protocol
 
 
@@ -48,4 +34,6 @@ make
 client_example.exe 127.0.0.1 8000 ..\sample_image.jpg
 ```
 
-The CPP Client Example will connect to a Postcard Server running locally. It will send a "sample_image.jpg" to the server which will draw random circles over it and send back the modified version.
+The CPP Client Example will connect to a Postcard Server running locally
+(change 127.0.0.01 with remote custom IP address).
+It will send a "sample_image.jpg" to the server which will draw random circles over it and send back the modified version.
